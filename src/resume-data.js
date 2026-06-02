@@ -519,12 +519,6 @@ export const RESUME = {
       stack: ["Cloudflare Pages", "DNS", "Static site"],
     },
     {
-      id: "sanitise",
-      name: "Student data de-identification",
-      blurb: "Built a tool for a children's charity that strips personal information from student profiles before they reach sponsors, so the people doing the matching never see what they do not need to.",
-      stack: ["PII detection", "De-identification"],
-    },
-    {
       id: "productivity",
       name: "A personal productivity system",
       blurb: "An evolving set of AI agents that watch the inbox and calendar and surface what actually needs doing. The proving ground for most of the techniques in the experiments above.",
