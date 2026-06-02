@@ -275,13 +275,13 @@ export const RESUME = {
       org: "SAP Australia",
       role: "Customer Success Manager, SAP BTP",
       sub: "incl. Datasphere, SAC and Business Data Cloud",
-      start: 2021, end: null, range: "2021 — present",
+      start: 2021, end: null, range: "2021–present",
       summary: "Guiding net-new enterprise customers from on-premise SAP and non-SAP landscapes onto BTP and the data and analytics portfolio, with minimal disruption to the business.",
       points: [
         "Influenced 70% YoY BTP consumption growth and generated more than $1.2M of upsell and cross-sell pipeline in a single year.",
         "Positioned SAP Datasphere as the strategic data fabric and led competitive displacement of non-SAP data architectures in favour of Business Data Cloud.",
         "Demonstrated end-to-end BTP use cases by stringing services together: Integration Suite, Cloud Foundry-hosted CAP apps, identity, and HANA Cloud.",
-        "Established a Center of Excellence and architecture standards for BTP adoption, including governance and Fiori design guidelines.",
+        "Established a Centre of Excellence and architecture standards for BTP adoption, including governance and Fiori design guidelines.",
         "Served as the customer's advocate to SAP product teams, channelling feedback to influence the roadmap.",
       ],
       tags: ["BTP", "Data & Analytics", "Customer Success"],
@@ -289,7 +289,7 @@ export const RESUME = {
     {
       id: "fellow",
       org: "SAP Australia",
-      role: "Fellowship — SAP Business AI Evangelist",
+      role: "Fellowship, SAP Business AI Evangelist",
       sub: "concurrent fellowship",
       start: 2025, end: 2025, range: "2025",
       summary: "A fellowship enabling partners and customers on SAP Business AI across lines of business, and a proponent of an AI assistant as the new experience layer for business users.",
@@ -305,8 +305,8 @@ export const RESUME = {
       org: "SAP Australia",
       role: "Cloud Solution Architect",
       sub: "custom development",
-      start: 2018, end: 2021, range: "2018 — 2021",
-      summary: "Architecture lead for scalable enterprise solutions, with emphasis on intuitive interfaces and seamless end-user workflows.",
+      start: 2018, end: 2021, range: "2018–2021",
+      summary: "Architecture lead for scalable enterprise solutions, with emphasis on intuitive interfaces and clean end-user workflows.",
       points: [
         "Architecture lead for a team of 10 developers delivering a high-quality enterprise planning solution.",
         "Led bespoke development for clients in property and defence, achieving a 30% lift in system efficiency through secure, fit-for-purpose architectures.",
@@ -319,7 +319,7 @@ export const RESUME = {
       org: "SAP Labs India",
       role: "ABAP Solution Architect",
       sub: "custom development",
-      start: 2008, end: 2018, range: "2008 — 2018",
+      start: 2008, end: 2018, range: "2008–2018",
       summary: "A decade delivering custom SAP implementations across manufacturing, transport, and retail on HANA, S/4HANA, and ECC.",
       points: [
         "Designed and delivered enterprise-scale solutions integrating multiple SAP modules with custom-built components.",
@@ -333,7 +333,7 @@ export const RESUME = {
       org: "Infosys Technologies",
       role: "Load Testing Script Author",
       sub: "",
-      start: 2006, end: 2008, range: "2006 — 2007",
+      start: 2006, end: 2008, range: "2006–2007",
       summary: "Built automated testing frameworks for SAP GUI applications supporting enterprise-scale implementations. Moved straight to SAP Labs India with no break.",
       points: [
         "Developed frameworks for automated testing of SAP GUI and interaction with external test tooling.",
@@ -343,7 +343,7 @@ export const RESUME = {
     },
   ],
 
-  // ── Selected delivery projects — clients abstracted to industry ───────
+  // Selected delivery projects. Clients abstracted to industry.
   projects: [
     {
       id: "cashflow",
@@ -351,7 +351,7 @@ export const RESUME = {
       industry: "ASX-listed property group",
       blurb: "A machine-learning solution on SAP Analytics Cloud, BI-IP, and HANA predicting cashflow forecasts to a 40-year horizon at GL-account level.",
       stack: ["SAP HANA", "BW/4HANA", "Analytics Cloud", "AMDP / CDS"],
-      span: "2016 — 2020",
+      span: "2016–2020",
       role: "Solution Architect, team of 13",
     },
     {
@@ -367,7 +367,7 @@ export const RESUME = {
       id: "procure",
       name: "Intuitive procurement experience",
       industry: "national corrections agency",
-      blurb: "Enhanced Fiori and GUI purchase requisition apps with role-based address restrictions, real-time address validation against external APIs, and dynamic, keyless vendor catalog connections.",
+      blurb: "Enhanced Fiori and GUI purchase requisition apps with role-based address restrictions, real-time address validation against external APIs, and dynamic, keyless vendor catalogue connections.",
       stack: ["SAP CAP", "Fiori Elements", "S/4HANA", "API Management"],
       span: "2021",
       role: "Solution Architect",
@@ -378,7 +378,7 @@ export const RESUME = {
       industry: "global container shipping line",
       blurb: "Custom SAP TM execution across capacity, allocation, and routing, with BW extraction and reporting on the bespoke model. Technical architect and scrum master for a team of 7.",
       stack: ["SAP TM", "BOPF", "FPM", "BW on HANA"],
-      span: "2015 — 2016",
+      span: "2015–2016",
       role: "Solution Architect & Scrum Master",
     },
     {
@@ -387,7 +387,7 @@ export const RESUME = {
       industry: "global horticulture exporter",
       blurb: "Custom SAP SD delivery and shipment management integrated with TM freight orders, with a modern UI5 front end on a Gateway and HANA foundation.",
       stack: ["SAP SD", "UI5", "Gateway", "HANA"],
-      span: "2014 — 2015",
+      span: "2014–2015",
       role: "Technical Lead, team of 5",
     },
     {
@@ -396,7 +396,7 @@ export const RESUME = {
       industry: "Japanese industrial distributor",
       blurb: "Reimplemented SAP SD pricing logic on HANA and acted as the integration point between the HANA solution and an existing Java application.",
       stack: ["SAP HANA", "ABAP", "Java interface"],
-      span: "2012 — 2013",
+      span: "2012–2013",
       role: "Senior Developer",
     },
   ],
@@ -468,8 +468,8 @@ export const RESUME = {
 
   // Verified credential badges.
   badges: [
-    { img: "sap-data-analyst-sac.png", name: "Data Analyst — SAP Analytics Cloud", issuer: "SAP Certification" },
-    { img: "sap-associate-sac.png", name: "Certified Associate — SAP Analytics Cloud", issuer: "SAP Certification" },
+    { img: "sap-data-analyst-sac.png", name: "Data Analyst, SAP Analytics Cloud", issuer: "SAP Certification" },
+    { img: "sap-associate-sac.png", name: "Certified Associate, SAP Analytics Cloud", issuer: "SAP Certification" },
     { img: "sap-positioning-btp.png", name: "Positioning SAP Business Technology Platform", issuer: "SAP Certification" },
     { img: "sap-integration-black-belt-l3.png", name: "Integration Black Belt, Level 3", issuer: "SAP Technology Skills" },
     { img: "solace-eda-practitioner.png", name: "Event-Driven Architecture Practitioner", issuer: "Solace Academy" },
@@ -479,7 +479,7 @@ export const RESUME = {
   education: {
     degree: "Bachelor of Engineering, Mechanical Engineering",
     school: "Anna University, Chennai",
-    span: "2002 — 2006",
+    span: "2002–2006",
   },
 
   closing: "The hard part of AI was never the model. It is the trust around it: how data stays safe, how a system fails well, how an answer earns belief. That is the work I want to keep doing.",
