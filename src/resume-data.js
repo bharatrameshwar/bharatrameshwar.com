@@ -48,6 +48,13 @@ export const RESUME = {
           "Answers grounded in retrieved facts, with their lineage",
         ],
         lesson: "A vector index alone gives you plausible answers; a graph alone gives you exact ones. The value is in the join, the model reasoning over facts and context together.",
+        useCase: "An account manager asks, in plain language, what has gone quiet on a customer and why. The system walks the graph from that customer through its open topics, the decisions taken, and the last engagement on each, and answers with the specifics and a link back to where each came from. The same question used to mean an hour across four systems.",
+        safeguards: [
+          { label: "Grounded, not recalled", text: "The model never answers from memory. It answers only from what the retrieval returned, and every claim is traceable back to the record it came from. If the facts are not in the estate, the honest answer is 'I do not have that', not a confident guess." },
+          { label: "Retrieval over generation", text: "The graph supplies exact facts and the documents supply the context; the model's job is to phrase what was retrieved, not to invent it. This is the single biggest lever against hallucination: keep the model downstream of the facts." },
+          { label: "Read-only by default", text: "The query path can read the estate and nothing more. An agent can ask questions all day; it cannot change a record. Anything that writes is a separate, deliberate, permissioned path." },
+          { label: "Lineage you can audit", text: "Because answers cite their source records, a wrong answer is debuggable: you can see exactly which fact or document led the model astray, rather than shrugging at a black box." },
+        ],
         diagram: {
           w: 1000, h: 540,
           detailLabels: { a: "What it does", b: "Why it is built this way" },
@@ -111,6 +118,13 @@ export const RESUME = {
           "A string-matching canary that alarms if a real value leaks",
         ],
         lesson: "You cannot prove a masking system is perfect, so you do not claim it. You build the alarm that assumes it will miss one, and you fail closed everywhere else.",
+        useCase: "A support assistant needs to read customer case notes to draft a reply, but those notes are full of names, account numbers, and contact details. The pipeline disguises every one of those before a cloud model sees the text, lets the model reason over the stand-ins, then restores the real values only on the user's own machine. The model does useful work; it never holds a real identity.",
+        safeguards: [
+          { label: "Fail closed, never on a guess", text: "If the system cannot reliably detect the sensitive entities in a piece of text, it stops and retries later. It never ships unmasked text on the hope that it was clean. A late answer is acceptable; a leaked name is not." },
+          { label: "Assume the masking will miss one", text: "No detector is perfect, so a plain string-matching canary scans every output before it is saved or shown, and alarms if any real value survived. The system is designed around its own failure, not around a claim of perfection." },
+          { label: "Hold no secrets", text: "Credentials are wrapped in two-layer encryption with a per-record key; raw source data is deleted within a day; only the distilled result is kept, encrypted. The safest data to lose is the data you never stored." },
+          { label: "Every input is hostile", text: "Untrusted text is screened for embedded instructions before any reasoning. Content is treated as data to summarise, never as commands to obey, which is how you stop prompt injection from turning a helper into an attacker's tool." },
+        ],
         diagram: {
           w: 1000, h: 560,
           detailLabels: { a: "The decision", b: "The alternative, rejected" },
@@ -181,6 +195,13 @@ export const RESUME = {
           "An MCP server so an agent can query your own activity",
         ],
         lesson: "Most of this category ships as a dashboard of charts nobody opens. The point is not the capture, it is the assimilation: a week of raw events collapsed into the handful of people, decisions, and threads you would actually want back.",
+        useCase: "On Friday you cannot remember what ate Tuesday, or who you were going back and forth with about a particular decision. You ask the record, in plain language, and it answers from what it actually saw: the people, the documents, the thread. A week of attention becomes something you can query instead of something you lost.",
+        safeguards: [
+          { label: "Local-first, by default", text: "Capture, classification, and memory all run on the machine. A record this intimate, what you read and who you spoke to, should never depend on a vendor seeing it. Nothing leaves the device unless you explicitly send it somewhere." },
+          { label: "A local model does the reading", text: "The classifier and the memory extraction run on a local LLM, so the raw screen content is reasoned over on-device, not shipped to an API. Privacy is a property of where the compute happens, not a promise in a policy." },
+          { label: "You hold the off switch", text: "It is open source, the data sits in a plain local database you can inspect or delete, and a cleanup job ages it out. There is no hidden server-side copy to worry about because there is no server." },
+          { label: "Grounded answers", text: "When the agent answers a question about your activity, it answers from the stored record, not from a guess about what you probably did. The record is the source of truth." },
+        ],
         link: "https://github.com/bharatrameshwar/commonplace",
         diagram: {
           w: 1000, h: 540,
@@ -231,6 +252,13 @@ export const RESUME = {
           "Audio and transcript never leave the machine",
         ],
         lesson: "Transcription is a commodity now; every platform has it. Keeping the audio on the machine while you do it is the part with a defensible reason behind it.",
+        useCase: "You have spoken audio you are entitled to work with, and you want the decisions and actions out of it without the words ever leaving your machine. The pipeline transcribes, separates the speakers, and distils it to a short, searchable note, all on-device. The half-page that matters, with none of the data-residency questions that come the moment audio is uploaded.",
+        safeguards: [
+          { label: "On-device, end to end", text: "Capture, transcription, speaker separation, and distillation all run locally on the hardware. The audio and the transcript never touch a server, which removes the data-residency and retention questions before they can be asked." },
+          { label: "Distil, do not embellish", text: "The model's job is to compress what was actually said into decisions and actions, not to add anything. It works from the transcript in front of it, so the output stays anchored to the real words rather than drifting into invention." },
+          { label: "Consent is a precondition", text: "The system processes audio the user is entitled to process. The on-device design exists precisely so that sensitive recordings stay under the control of the person responsible for them, never handed to a third party." },
+          { label: "Nothing to leak", text: "Because nothing is uploaded and the artefacts stay local, there is no cloud copy to breach, subpoena, or mishandle. The most private architecture is the one with no remote surface at all." },
+        ],
         diagram: {
           w: 1000, h: 520,
           detailLabels: { a: "What it does", b: "Why it is built this way" },

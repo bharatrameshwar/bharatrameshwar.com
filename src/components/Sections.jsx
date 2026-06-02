@@ -119,6 +119,28 @@ const Experiment = ({ e, idx }) => (
       <ArchDiagram diagram={e.diagram} />
     </div>
     <p className="r-exp__lesson">{e.lesson}</p>
+    {e.useCase && (
+      <div className="r-usecase">
+        <div className="r-usecase__label">Where this matters</div>
+        <p className="r-usecase__text">{e.useCase}</p>
+      </div>
+    )}
+    {e.safeguards && e.safeguards.length > 0 && (
+      <div className="r-safeguards">
+        <div className="r-safeguards__head">Keeping it safe</div>
+        <div className="r-safeguards__grid">
+          {e.safeguards.map((s) => (
+            <div key={s.label} className="r-safeguard">
+              <div className="r-safeguard__label">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 1.7l5 1.9v3.4c0 3.1-2.1 5.4-5 6.3-2.9-.9-5-3.2-5-6.3V3.6z" /><path d="M5.8 8.1l1.5 1.5 3-3.4" /></svg>
+                {s.label}
+              </div>
+              <p className="r-safeguard__text">{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
   </Reveal>
 );
 
