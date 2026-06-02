@@ -1,6 +1,42 @@
 /* Primitives.jsx — shared building blocks: Asanoha watermark, Reveal, Counter. */
 import { useState, useEffect, useRef } from "react";
 
+/* True when the viewport is phone-width. Drives stacked mobile variants.
+   Matches the 820px breakpoint used in mobile.css.
+   Checks both matchMedia AND the actual viewport width (innerWidth /
+   visualViewport) so it stays correct where the layout viewport is
+   misreported, and updates on resize, orientation change, and zoom. */
+const MOBILE_MAX = 820;
+const computeMobile = () => {
+  if (typeof window === "undefined") return false;
+  const vv = window.visualViewport ? window.visualViewport.width : Infinity;
+  const w = Math.min(window.innerWidth || Infinity, vv);
+  const mm = window.matchMedia ? window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches : false;
+  return mm || w <= MOBILE_MAX;
+};
+export const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(computeMobile);
+  useEffect(() => {
+    const onChange = () => setIsMobile(computeMobile());
+    onChange();
+    window.addEventListener("resize", onChange);
+    window.addEventListener("orientationchange", onChange);
+    window.visualViewport?.addEventListener("resize", onChange);
+    let mq;
+    if (window.matchMedia) {
+      mq = window.matchMedia(`(max-width: ${MOBILE_MAX}px)`);
+      mq.addEventListener ? mq.addEventListener("change", onChange) : mq.addListener(onChange);
+    }
+    return () => {
+      window.removeEventListener("resize", onChange);
+      window.removeEventListener("orientationchange", onChange);
+      window.visualViewport?.removeEventListener("resize", onChange);
+      if (mq) { mq.removeEventListener ? mq.removeEventListener("change", onChange) : mq.removeListener(onChange); }
+    };
+  }, []);
+  return isMobile;
+};
+
 /* Asanoha hemp-leaf corner watermark. */
 export const Asanoha = () => {
   const stars = [];

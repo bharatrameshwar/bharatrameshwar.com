@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { RESUME as R } from "../resume-data.js";
 import { BADGE_IMG } from "../badges.js";
-import { Reveal, Counter } from "./Primitives.jsx";
+import { Reveal, Counter, useIsMobile } from "./Primitives.jsx";
 import { ArchDiagram } from "./ArchDiagram.jsx";
 import { Timeline } from "./Timeline.jsx";
 
@@ -138,14 +138,23 @@ export const AIPortfolio = () => {
   );
 };
 
-export const Experience = () => (
+export const Experience = () => {
+  const isMobile = useIsMobile();
+  return (
   <section className="r-section" id="experience" data-screen-label="Career timeline">
     <div className="r-wrap r-wrap--wide">
-      <SectionHead eyebrow="The long arc" title="Twenty years, one continuous thread." lede="From load-testing scripts to AI architecture. Drag through the years to follow the work." />
+      <SectionHead
+        eyebrow="The long arc"
+        title="Twenty years, one continuous thread."
+        lede={isMobile
+          ? "From load-testing scripts to AI architecture."
+          : "From load-testing scripts to AI architecture. Drag through the years to follow the work."}
+      />
       <Reveal><Timeline roles={R.timeline} /></Reveal>
     </div>
   </section>
-);
+  );
+};
 
 const ProjectCard = ({ p }) => {
   const [open, setOpen] = useState(false);

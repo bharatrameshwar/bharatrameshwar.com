@@ -1,7 +1,9 @@
 /* ArchDiagram.jsx — interactive layered architecture diagram.
-   Renders SVG edges + positioned HTML node cards from data.
-   Click a node to reveal its two-sided detail. */
+   Desktop: SVG edges + spatially positioned node cards.
+   Mobile (<820px): the same nodes as a vertical stacked flow grouped by lane,
+   each tappable for the same detail. No horizontal scroll. */
 import { useState } from "react";
+import { useIsMobile } from "./Primitives.jsx";
 
 const KIND_LABEL = {
   ingest: "Source / ingest",
@@ -15,10 +17,113 @@ const KIND_LABEL = {
 
 export const ArchDiagram = ({ diagram }) => {
   const [active, setActive] = useState(diagram.nodes[0].id);
+  const isMobile = useIsMobile();
   const W = diagram.w, H = diagram.h;
   const byId = {};
   diagram.nodes.forEach((n) => { byId[n.id] = n; });
   const node = byId[active];
+
+  const usedKinds = Array.from(new Set(diagram.nodes.map((n) => n.kind)));
+
+  // shared detail panel (identical for both layouts)
+  const detail = (
+    <div className="r-diagram__detail" key={node.id}>
+      <div className="r-anim-in">
+        <div className="r-dnode__kind-row">
+          <span className={`r-dnode__kind k-${node.kind}`}></span>
+          <h4>{node.label}</h4>
+        </div>
+        <div className="r-detail-eyebrow is-keep">{diagram.detailLabels.a}</div>
+        <p>{node.a}</p>
+      </div>
+      <div className="r-anim-in">
+        <div className="r-detail-eyebrow is-rej">{diagram.detailLabels.b}</div>
+        <p style={{ marginTop: 0 }}>{node.b}</p>
+      </div>
+      {node.tech && (
+        <div className="r-diagram__tech r-anim-in">
+          <span className="r-tech-label">How</span>
+          <code>{node.tech}</code>
+        </div>
+      )}
+    </div>
+  );
+
+  const legend = (
+    <div className="r-legend">
+      {usedKinds.map((k) => (
+        <span key={k}><i className={`k-${k}`}></i>{KIND_LABEL[k] || k}</span>
+      ))}
+    </div>
+  );
+
+  // ── mobile: vertical stacked flow, nodes grouped by lane ──────────────
+  if (isMobile) {
+    const lanes = (diagram.lanes && diagram.lanes.length)
+      ? diagram.lanes
+      : [{ label: "", x: 0, w: W }];
+    // assign each node to the lane whose horizontal band contains its centre
+    const laneOf = (n) => {
+      const cx = n.x + n.w / 2;
+      let best = 0, bestDist = Infinity;
+      lanes.forEach((ln, i) => {
+        const lcx = ln.x + ln.w / 2;
+        const d = Math.abs(cx - lcx);
+        if (cx >= ln.x && cx <= ln.x + ln.w) { if (d < bestDist) { bestDist = d; best = i; } }
+        else if (d < bestDist && bestDist === Infinity) { best = i; }
+      });
+      // fallback: nearest lane centre if it fell outside all bands
+      if (bestDist === Infinity) {
+        lanes.forEach((ln, i) => {
+          const d = Math.abs(cx - (ln.x + ln.w / 2));
+          if (d < bestDist) { bestDist = d; best = i; }
+        });
+      }
+      return best;
+    };
+    const grouped = lanes.map(() => []);
+    diagram.nodes.forEach((n) => { grouped[laneOf(n)].push(n); });
+    // sort nodes within a lane by vertical position (top to bottom)
+    grouped.forEach((g) => g.sort((a, b) => a.y - b.y));
+
+    return (
+      <div className="r-diagram r-diagram--stack">
+        <div className="r-stack">
+          {lanes.map((ln, i) => (
+            grouped[i].length > 0 && (
+              <div key={i} className="r-stack__lane">
+                {ln.label && <div className="r-stack__lanelabel">{ln.label}</div>}
+                <div className="r-stack__nodes">
+                  {grouped[i].map((n) => (
+                    <button
+                      key={n.id}
+                      type="button"
+                      className={`r-stack__node k-border-${n.kind}`}
+                      data-active={n.id === active}
+                      onClick={() => setActive(n.id)}
+                    >
+                      <span className={`r-dnode__kind k-${n.kind}`}></span>
+                      <span className="r-stack__node-text">
+                        <span className="r-dnode__label">{n.label}</span>
+                        <span className="r-dnode__short">{n.short}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                {i < lanes.length - 1 && grouped.slice(i + 1).some((g) => g.length) && (
+                  <div className="r-stack__arrow" aria-hidden="true">
+                    <svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1v14M2 10l5 5 5-5" /></svg>
+                  </div>
+                )}
+              </div>
+            )
+          ))}
+        </div>
+        {legend}
+        {detail}
+      </div>
+    );
+  }
 
   const anchor = (n, side) => {
     switch (side) {
@@ -39,8 +144,7 @@ export const ArchDiagram = ({ diagram }) => {
     }
   };
 
-  const usedKinds = Array.from(new Set(diagram.nodes.map((n) => n.kind)));
-
+  // ── desktop: spatial SVG graph ────────────────────────────────────────
   return (
     <div className="r-diagram">
       <div className="r-diagram__scroll">
@@ -100,32 +204,8 @@ export const ArchDiagram = ({ diagram }) => {
         </div>
       </div>
 
-      <div className="r-legend">
-        {usedKinds.map((k) => (
-          <span key={k}><i className={`k-${k}`}></i>{KIND_LABEL[k] || k}</span>
-        ))}
-      </div>
-
-      <div className="r-diagram__detail" key={node.id}>
-        <div className="r-anim-in">
-          <div className="r-dnode__kind-row">
-            <span className={`r-dnode__kind k-${node.kind}`}></span>
-            <h4>{node.label}</h4>
-          </div>
-          <div className="r-detail-eyebrow is-keep">{diagram.detailLabels.a}</div>
-          <p>{node.a}</p>
-        </div>
-        <div className="r-anim-in">
-          <div className="r-detail-eyebrow is-rej">{diagram.detailLabels.b}</div>
-          <p style={{ marginTop: 0 }}>{node.b}</p>
-        </div>
-        {node.tech && (
-          <div className="r-diagram__tech r-anim-in">
-            <span className="r-tech-label">How</span>
-            <code>{node.tech}</code>
-          </div>
-        )}
-      </div>
+      {legend}
+      {detail}
     </div>
   );
 };
