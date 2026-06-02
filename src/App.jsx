@@ -5,17 +5,19 @@
 import { useState, useEffect } from "react"; // useState used by useScrollSpy
 import { RESUME as R } from "./resume-data.js";
 import {
-  Lead, Metrics, AIPortfolio, Experience, Projects, Skills, Credentials, Footer,
+  Lead, Metrics, AIPortfolio, Experience, Projects, Community, Skills, Credentials, Footer,
 } from "./components/Sections.jsx";
 import "./styles/tokens.css";
 import "./styles/resume.css";
 import "./styles/resume-sidebar.css";
+import "./styles/mobile.css";
 
 const SIDE_NAV = [
   { id: "lead", label: "Intro" },
-  { id: "ai", label: "AI work" },
-  { id: "experience", label: "Experience" },
+  { id: "ai", label: "AI Experiments" },
+  { id: "experience", label: "Work Experience" },
   { id: "projects", label: "Projects" },
+  { id: "community", label: "Community" },
   { id: "skills", label: "Skills" },
   { id: "credentials", label: "Credentials" },
 ];
@@ -61,6 +63,61 @@ const Sidebar = ({ active }) => (
   </aside>
 );
 
+// Mobile-only sticky top bar with a hamburger that opens a slide-down nav panel.
+const MobileBar = ({ active }) => {
+  const [open, setOpen] = useState(false);
+
+  // lock body scroll while the menu is open; close on Escape
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  return (
+    <header className="r-mbar" data-open={open}>
+      <div className="r-mbar__top">
+        <a href="#lead" className="r-mbar__brand" onClick={() => setOpen(false)}>
+          <span className="r-monogram">{R.person.monogram}</span>
+          <span className="r-mbar__name">{R.person.shortName}</span>
+        </a>
+        <button
+          type="button"
+          className="r-mbar__toggle"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span className="r-mbar__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
+      </div>
+      <nav className="r-mbar__panel" aria-hidden={!open}>
+        {SIDE_NAV.map((s) => (
+          <a
+            key={s.id}
+            href={"#" + s.id}
+            className="r-mbar__link"
+            data-active={active === s.id}
+            onClick={() => setOpen(false)}
+          >
+            {s.label}
+          </a>
+        ))}
+      </nav>
+      <button
+        type="button"
+        className="r-mbar__scrim"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => setOpen(false)}
+      ></button>
+    </header>
+  );
+};
+
 export default function App() {
   const active = useScrollSpy(SIDE_NAV.map((s) => s.id));
 
@@ -96,6 +153,7 @@ export default function App() {
 
   return (
     <div className="r-shell">
+      <MobileBar active={active} />
       <Sidebar active={active} />
       <main className="r-main">
         <Lead />
@@ -103,6 +161,7 @@ export default function App() {
         <AIPortfolio />
         <Experience />
         <Projects />
+        <Community />
         <Skills />
         <Credentials />
         <Footer />

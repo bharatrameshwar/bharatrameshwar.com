@@ -37,6 +37,58 @@ export const Metrics = () => (
   </section>
 );
 
+const SITE_ORIGIN = "https://bharatrameshwar.com";
+
+// Copy-link button for an experiment's deep-link. Shows a brief "Copied" state.
+const CopyLink = ({ anchor }) => {
+  const [copied, setCopied] = useState(false);
+  const url = `${SITE_ORIGIN}/#${anchor}`;
+  const legacyCopy = () => {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = url; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  };
+  const flash = () => { setCopied(true); window.setTimeout(() => setCopied(false), 1600); };
+  const copy = async () => {
+    // Prefer the async Clipboard API; fall back to execCommand if it rejects
+    // (older browsers, or contexts without clipboard permission).
+    if (navigator.clipboard?.writeText) {
+      try { await navigator.clipboard.writeText(url); flash(); return; }
+      catch { /* fall through to legacy */ }
+    }
+    if (legacyCopy()) flash();
+  };
+  return (
+    <button
+      type="button"
+      className="r-copylink"
+      data-copied={copied}
+      onClick={copy}
+      title={`Copy link to this experiment (${url})`}
+      aria-label={`Copy link to this experiment: ${url}`}
+    >
+      {copied ? (
+        <>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" /></svg>
+          Copied
+        </>
+      ) : (
+        <>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6.5 9.5a2.6 2.6 0 0 0 3.8.2l2-2a2.6 2.6 0 0 0-3.7-3.7l-1 1" /><path d="M9.5 6.5a2.6 2.6 0 0 0-3.8-.2l-2 2a2.6 2.6 0 0 0 3.7 3.7l1-1" /></svg>
+          Copy link
+        </>
+      )}
+    </button>
+  );
+};
+
 const Experiment = ({ e, idx }) => (
   <Reveal
     className="r-expb"
@@ -45,6 +97,7 @@ const Experiment = ({ e, idx }) => (
   >
     <div className="r-expb__head">
       <div className="r-exp__tag">{e.tag}</div>
+      <CopyLink anchor={e.anchor} />
       <h3 className="r-expb__name">{e.name}</h3>
       {e.link && <a className="r-expb__repo" href={e.link} target="_blank" rel="noopener">View the repository ↗</a>}
     </div>
@@ -127,6 +180,25 @@ export const Projects = () => (
       <SectionHead eyebrow="Selected delivery" title="Shipped, across industries." lede="A sample of custom solutions delivered end to end. Client names withheld; the shape of the work is the point. Tap a card to open it." />
       <div className="r-proj-grid">
         {R.projects.map((p) => <ProjectCard key={p.id} p={p} />)}
+      </div>
+    </div>
+  </section>
+);
+
+export const Community = () => (
+  <section className="r-section" id="community" data-screen-label="Community">
+    <div className="r-wrap r-wrap--wide">
+      <SectionHead eyebrow="Outside the day job" title="Built for the community." lede="A few things made for people rather than for a client, and the personal tooling that doubles as a proving ground." />
+      <div className="r-comm-grid">
+        {R.community.map((c) => (
+          <Reveal key={c.id} className="r-comm" as="div">
+            <div className="r-comm__name">{c.name}</div>
+            <p className="r-comm__blurb">{c.blurb}</p>
+            <div className="r-comm__stack">
+              {c.stack.map((s) => <span key={s}>{s}</span>)}
+            </div>
+          </Reveal>
+        ))}
       </div>
     </div>
   </section>

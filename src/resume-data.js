@@ -462,8 +462,8 @@ export const RESUME = {
   certifications: [
     { group: "SAP Certified Associate", items: ["Analytics Cloud Practitioner", "HANA Consultant", "Positioning SAP BTP", "Positioning the Autonomous Enterprise"] },
     { group: "SAP Technology Skills", items: ["Business Data Cloud", "Business AI & Joule Agents", "Extension Suite Black Belt", "Integration Black Belt"] },
-    { group: "Solace", items: ["Event-Driven Architecture Practitioner", "Integration Associate"] },
-    { group: "Google", items: ["AI & Generative AI Foundations"] },
+    { group: "Solace certification", items: ["Event-Driven Architecture Practitioner", "Integration Associate"] },
+    { group: "Google trainings", items: ["AI & Generative AI Foundations"] },
   ],
 
   // Verified credential badges.
@@ -481,6 +481,28 @@ export const RESUME = {
     school: "Anna University, Chennai",
     span: "2002–2006",
   },
+
+  // ── Community projects: things built for people, not for a client ──────
+  community: [
+    {
+      id: "smallbiz",
+      name: "Websites for small businesses",
+      blurb: "Building and hosting websites for small businesses in the community on Cloudflare, end to end: domain, build, deploy, and the running cost kept near zero.",
+      stack: ["Cloudflare Pages", "DNS", "Static site"],
+    },
+    {
+      id: "sanitise",
+      name: "Student data de-identification",
+      blurb: "Built a tool for a children's charity that strips personal information from student profiles before they reach sponsors, so the people doing the matching never see what they do not need to.",
+      stack: ["PII detection", "De-identification"],
+    },
+    {
+      id: "productivity",
+      name: "A personal productivity system",
+      blurb: "An evolving set of AI agents that watch the inbox and calendar and surface what actually needs doing. The proving ground for most of the techniques in the experiments above.",
+      stack: ["LLM agents", "MCP servers", "Vector search"],
+    },
+  ],
 
   closing: "The hard part of AI was never the model. It is the trust around it: how data stays safe, how a system fails well, how an answer earns belief. That is the work I want to keep doing.",
 };
