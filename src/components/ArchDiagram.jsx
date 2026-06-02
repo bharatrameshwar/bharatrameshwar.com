@@ -21,7 +21,9 @@ export const ArchDiagram = ({ diagram }) => {
   const W = diagram.w, H = diagram.h;
   const byId = {};
   diagram.nodes.forEach((n) => { byId[n.id] = n; });
-  const node = byId[active];
+  // active can be null on mobile (collapsed); the desktop detail panel always
+  // needs a node, so fall back to the first.
+  const node = byId[active] || diagram.nodes[0];
 
   const usedKinds = Array.from(new Set(diagram.nodes.map((n) => n.kind)));
 
@@ -86,6 +88,24 @@ export const ArchDiagram = ({ diagram }) => {
     // sort nodes within a lane by vertical position (top to bottom)
     grouped.forEach((g) => g.sort((a, b) => a.y - b.y));
 
+    // detail shown INLINE under the tapped node (so the change is where the
+    // finger is, not at the bottom of a long list)
+    const inlineDetail = (n) => (
+      <div className="r-stack__detail" key={`d-${n.id}`}>
+        <div className="r-detail-eyebrow is-keep">{diagram.detailLabels.a}</div>
+        <p>{n.a}</p>
+        <div className="r-detail-eyebrow is-rej" style={{ marginTop: 14 }}>{diagram.detailLabels.b}</div>
+        <p style={{ marginTop: 0 }}>{n.b}</p>
+        {n.tech && (
+          <div className="r-stack__tech">
+            <span className="r-tech-label">How</span>
+            <code>{n.tech}</code>
+          </div>
+        )}
+      </div>
+    );
+    const toggle = (id) => setActive((cur) => (cur === id ? null : id));
+
     return (
       <div className="r-diagram r-diagram--stack">
         <div className="r-stack">
@@ -94,21 +114,30 @@ export const ArchDiagram = ({ diagram }) => {
               <div key={i} className="r-stack__lane">
                 {ln.label && <div className="r-stack__lanelabel">{ln.label}</div>}
                 <div className="r-stack__nodes">
-                  {grouped[i].map((n) => (
-                    <button
-                      key={n.id}
-                      type="button"
-                      className={`r-stack__node k-border-${n.kind}`}
-                      data-active={n.id === active}
-                      onClick={() => setActive(n.id)}
-                    >
-                      <span className={`r-dnode__kind k-${n.kind}`}></span>
-                      <span className="r-stack__node-text">
-                        <span className="r-dnode__label">{n.label}</span>
-                        <span className="r-dnode__short">{n.short}</span>
-                      </span>
-                    </button>
-                  ))}
+                  {grouped[i].map((n) => {
+                    const open = n.id === active;
+                    return (
+                      <div key={n.id} className="r-stack__item" data-open={open}>
+                        <button
+                          type="button"
+                          className={`r-stack__node k-border-${n.kind}`}
+                          data-active={open}
+                          aria-expanded={open}
+                          onClick={() => toggle(n.id)}
+                        >
+                          <span className={`r-dnode__kind k-${n.kind}`}></span>
+                          <span className="r-stack__node-text">
+                            <span className="r-dnode__label">{n.label}</span>
+                            <span className="r-dnode__short">{n.short}</span>
+                          </span>
+                          <span className="r-stack__caret" data-open={open} aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6l4 4 4-4" /></svg>
+                          </span>
+                        </button>
+                        {open && inlineDetail(n)}
+                      </div>
+                    );
+                  })}
                 </div>
                 {i < lanes.length - 1 && grouped.slice(i + 1).some((g) => g.length) && (
                   <div className="r-stack__arrow" aria-hidden="true">
@@ -120,7 +149,6 @@ export const ArchDiagram = ({ diagram }) => {
           ))}
         </div>
         {legend}
-        {detail}
       </div>
     );
   }

@@ -134,6 +134,28 @@ const Tab = ({ id, current, children }) => (
   </div>
 );
 
+// Mobile-only floating "back to top" button; appears after scrolling down.
+const BackToTop = () => {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 600);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <button
+      type="button"
+      className="r-totop"
+      data-show={show}
+      aria-label="Back to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 16V5M5 10l5-5 5 5" /></svg>
+    </button>
+  );
+};
+
 export default function App() {
   const active = useScrollSpy(SIDE_NAV.map((s) => s.id));
   const isMobile = useIsMobile();
@@ -197,6 +219,7 @@ export default function App() {
           <Footer />
         </Tab>
       </main>
+      <BackToTop />
     </div>
   );
 }
