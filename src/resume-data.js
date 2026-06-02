@@ -32,13 +32,13 @@ export const RESUME = {
   aiPortfolio: {
     eyebrow: "Applied AI · architecture experiments",
     title: "Four experiments in applying AI to real work.",
-    lede: "Outside the day job I build to learn, and to solve the enterprise problems I run into every week. Four systems, each a working architecture rather than a demo: making a linked estate answerable, reasoning over sensitive data without ever holding it, turning scattered activity into a usable record, and collapsing spoken conversation into structured notes.",
+    lede: "Outside the day job I build to learn, and to solve the enterprise problems I run into every week. Four systems, each a working architecture rather than a demo: making a business's data answerable, reasoning over sensitive data without ever holding it, turning scattered activity into a usable record, and collapsing spoken conversation into structured notes.",
     experiments: [
       {
         id: "memory",
-        anchor: "estate",
+        anchor: "data",
         tag: "Experiment I",
-        name: "Answering questions across the data estate",
+        name: "Answering questions across the business's data",
         problem: "A simple business question, why did margin slip on this account, who approved this exception, what is our exposure to this supplier, has its answer spread across a dozen systems. The structured records sit in one place, the documents that explain them in another, and no single query joins the two.",
         approach: "A system that builds two indexes over the same enterprise data: a knowledge graph that links the entities, customers, products, contracts, transactions, and a vector index over the documents that describe them. A question is answered by hybrid retrieval, traversing the graph for the facts and searching vectors for the context, then grounding the model in both.",
         techniques: [
@@ -52,7 +52,7 @@ export const RESUME = {
           w: 1000, h: 540,
           detailLabels: { a: "What it does", b: "Why it is built this way" },
           lanes: [
-            { label: "Data estate", x: 8, w: 184 },
+            { label: "Source data", x: 8, w: 184 },
             { label: "Ingest", x: 200, w: 184 },
             { label: "Index", x: 392, w: 196 },
             { label: "Stores", x: 596, w: 200 },
@@ -82,7 +82,7 @@ export const RESUME = {
             { id: "ans", label: "Grounded answer", short: "facts + context", x: 828, y: 198, w: 150, h: 96, kind: "output",
               a: "The model composes an answer grounded in the retrieved facts and documents, with their lineage.", b: "Grounding in retrieved evidence is what makes the answer auditable instead of merely plausible.", tech: "grounded generation, citations back to node IDs" },
             { id: "agent", label: "Agent / API", short: "asks in language · A2A", x: 828, y: 332, w: 150, h: 96, kind: "cloud",
-              a: "An agent or application asks in natural language and gets a grounded, traceable answer back.", b: "Exposed as a tool, the data estate becomes something other systems and agents can query directly.", tech: "exposed over MCP and REST; language to query-plan" },
+              a: "An agent or application asks in natural language and gets a grounded, traceable answer back.", b: "Exposed as a tool, the business's data becomes something other systems and agents can query directly.", tech: "exposed over MCP and REST; language to query-plan" },
           ],
           edges: [
             { from: "md", to: "ing" }, { from: "tx", to: "ing" }, { from: "doc", to: "ing" }, { from: "ops", to: "ing" },
@@ -276,7 +276,7 @@ export const RESUME = {
       role: "Customer Success Manager, SAP BTP",
       sub: "incl. Datasphere, SAC and Business Data Cloud",
       start: 2021, end: null, range: "2021 — present",
-      summary: "Guiding net-new enterprise customers from on-premise SAP and non-SAP estates onto BTP and the data and analytics portfolio, with minimal disruption to the business.",
+      summary: "Guiding net-new enterprise customers from on-premise SAP and non-SAP landscapes onto BTP and the data and analytics portfolio, with minimal disruption to the business.",
       points: [
         "Influenced 70% YoY BTP consumption growth and generated more than $1.2M of upsell and cross-sell pipeline in a single year.",
         "Positioned SAP Datasphere as the strategic data fabric and led competitive displacement of non-SAP data architectures in favour of Business Data Cloud.",

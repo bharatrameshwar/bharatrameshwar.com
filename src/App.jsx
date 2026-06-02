@@ -1,11 +1,11 @@
 /* App.jsx — fixed-sidebar layout: left rail (identity + scroll-spy nav +
    contact) with the section components scrolling in the main column.
-   Deep-links: /#estate, /#privacy, /#activity, /#notes scroll to and flash
+   Deep-links: /#data, /#privacy, /#activity, /#notes scroll to and flash
    the matching experiment, so a LinkedIn post can link straight to one. */
 import { useState, useEffect } from "react"; // useState used by useScrollSpy
 import { RESUME as R } from "./resume-data.js";
 import {
-  Lead, Metrics, AIPortfolio, Journey, Projects, Skills, Credentials, Footer,
+  Lead, Metrics, AIPortfolio, Experience, Projects, Skills, Credentials, Footer,
 } from "./components/Sections.jsx";
 import "./styles/tokens.css";
 import "./styles/resume.css";
@@ -14,14 +14,14 @@ import "./styles/resume-sidebar.css";
 const SIDE_NAV = [
   { id: "lead", label: "Intro" },
   { id: "ai", label: "AI work" },
-  { id: "journey", label: "Journey" },
+  { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "credentials", label: "Credentials" },
 ];
 
 // anchors that live inside the AI section and should deep-link + flash
-const EXPERIMENT_ANCHORS = new Set(["estate", "privacy", "activity", "notes"]);
+const EXPERIMENT_ANCHORS = new Set(["data", "privacy", "activity", "notes"]);
 
 function useScrollSpy(ids) {
   const [active, setActive] = useState(ids[0]);
@@ -101,7 +101,7 @@ export default function App() {
         <Lead />
         <Metrics />
         <AIPortfolio />
-        <Journey />
+        <Experience />
         <Projects />
         <Skills />
         <Credentials />

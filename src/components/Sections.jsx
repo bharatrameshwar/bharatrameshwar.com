@@ -85,8 +85,8 @@ export const AIPortfolio = () => {
   );
 };
 
-export const Journey = () => (
-  <section className="r-section" id="journey" data-screen-label="Career timeline">
+export const Experience = () => (
+  <section className="r-section" id="experience" data-screen-label="Career timeline">
     <div className="r-wrap r-wrap--wide">
       <SectionHead eyebrow="The long arc" title="Twenty years, one continuous thread." lede="From load-testing scripts to AI architecture. Drag through the years to follow the work." />
       <Reveal><Timeline roles={R.timeline} /></Reveal>
