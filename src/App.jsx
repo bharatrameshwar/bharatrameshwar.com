@@ -25,12 +25,12 @@ const SIDE_NAV = [
 ];
 
 // anchors that live inside the AI section and should deep-link + flash
-const EXPERIMENT_ANCHORS = new Set(["data", "privacy", "activity", "notes", "agent", "money"]);
+const EXPERIMENT_ANCHORS = new Set(["data", "privacy", "activity", "notes", "agent", "money", "craft"]);
 
 // every deep-link / section id maps to the mobile tab that contains it
 const TAB_FOR_HASH = {
   lead: "lead", top: "lead",
-  ai: "ai", data: "ai", privacy: "ai", activity: "ai", notes: "ai", agent: "ai", money: "ai",
+  ai: "ai", data: "ai", privacy: "ai", activity: "ai", notes: "ai", agent: "ai", money: "ai", craft: "ai",
   experience: "experience",
   projects: "projects",
   community: "community",
