@@ -3,6 +3,7 @@
    Deep-links: /#data, /#privacy, /#activity, /#notes scroll to and flash
    the matching experiment, and on mobile open the section that contains it. */
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { RESUME as R } from "./resume-data.js";
 import { useIsMobile } from "./components/Primitives.jsx";
 import {
@@ -66,6 +67,9 @@ const Sidebar = ({ active }) => (
           <span className="r-side__tick"></span>{s.label}
         </a>
       ))}
+      <Link to="/blog" className="r-side__link r-side__link--route">
+        <span className="r-side__tick"></span>Writing<span className="r-side__ext" aria-hidden="true"> ↗</span>
+      </Link>
     </nav>
     <div className="r-side__foot">
       <a href={"mailto:" + R.person.email}>{R.person.email}</a>
@@ -97,6 +101,7 @@ const MobileNav = ({ section, onSelect }) => {
           <span className="r-monogram">{R.person.monogram}</span>
           <span className="r-mnav__name">{R.person.shortName}</span>
         </button>
+        <Link to="/blog" className="r-mnav__writing">Writing<span aria-hidden="true"> ↗</span></Link>
       </div>
       <div className="r-mnav__select" data-open={open}>
         <button
