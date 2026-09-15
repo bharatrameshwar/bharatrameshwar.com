@@ -34,6 +34,12 @@
   transform: rotate(45deg); transition: background 120ms var(--ease-out);
 }
 .r-side__link[data-active="true"] .r-side__tick { background: var(--accent); }
+/* "Writing" routes away to the blog; mark it and set it apart from the
+   in-page anchors above with a hairline rule. */
+.r-side__link--route { margin-top: 8px; padding-top: 13px; border-top: 1px solid var(--line-1); }
+.r-side__link--route .r-side__tick { background: var(--accent); }
+.r-side__ext { color: var(--ink-4); font-weight: 600; }
+.r-side__link--route:hover .r-side__ext { color: var(--accent); }
 
 .r-side__foot { margin-top: auto; display: flex; flex-direction: column; gap: 8px; font: var(--type-meta); }
 .r-side__foot a { color: var(--ink-2); text-decoration: none; }

@@ -3,6 +3,7 @@
    Deep-links: /#data, /#privacy, /#activity, /#notes scroll to and flash
    the matching experiment, and on mobile open the section that contains it. */
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { RESUME as R } from "./resume-data.js";
 import { useIsMobile } from "./components/Primitives.jsx";
 import {
@@ -24,12 +25,12 @@ const SIDE_NAV = [
 ];
 
 // anchors that live inside the AI section and should deep-link + flash
-const EXPERIMENT_ANCHORS = new Set(["data", "privacy", "activity", "notes"]);
+const EXPERIMENT_ANCHORS = new Set(["data", "privacy", "activity", "notes", "agent", "money", "craft", "podcasts"]);
 
 // every deep-link / section id maps to the mobile tab that contains it
 const TAB_FOR_HASH = {
   lead: "lead", top: "lead",
-  ai: "ai", data: "ai", privacy: "ai", activity: "ai", notes: "ai",
+  ai: "ai", data: "ai", privacy: "ai", activity: "ai", notes: "ai", agent: "ai", money: "ai", craft: "ai", podcasts: "ai",
   experience: "experience",
   projects: "projects",
   community: "community",
@@ -56,7 +57,7 @@ const Sidebar = ({ active }) => (
   <aside className="r-side">
     <div>
       <span className="r-monogram r-monogram--lg">{R.person.monogram}</span>
-      <p className="r-eyebrow" style={{ marginTop: 22 }}>SAP BTP · Data · Applied AI</p>
+      <p className="r-eyebrow" style={{ marginTop: 22 }}>SAP Development · Data · Applied AI</p>
       <h1 className="r-side__name">{R.person.name}</h1>
       <p className="r-side__tag">{R.person.tagline}</p>
     </div>
@@ -66,6 +67,9 @@ const Sidebar = ({ active }) => (
           <span className="r-side__tick"></span>{s.label}
         </a>
       ))}
+      <Link to="/blog" className="r-side__link r-side__link--route">
+        <span className="r-side__tick"></span>Writing<span className="r-side__ext" aria-hidden="true"> ↗</span>
+      </Link>
     </nav>
     <div className="r-side__foot">
       <a href={"mailto:" + R.person.email}>{R.person.email}</a>
@@ -97,6 +101,7 @@ const MobileNav = ({ section, onSelect }) => {
           <span className="r-monogram">{R.person.monogram}</span>
           <span className="r-mnav__name">{R.person.shortName}</span>
         </button>
+        <Link to="/blog" className="r-mnav__writing">Writing<span aria-hidden="true"> ↗</span></Link>
       </div>
       <div className="r-mnav__select" data-open={open}>
         <button
